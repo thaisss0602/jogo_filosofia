@@ -1,0 +1,31 @@
+-- ===================== TABELA DE RANKING =====================
+-- Execute este script no SQL Editor do seu projeto Supabase.
+
+create table ranking (
+  id bigint generated always as identity primary key,
+  nome text not null,
+  pontuacao integer not null,
+  tempo_segundos integer not null,
+  criado_em timestamp with time zone default now()
+);
+
+-- ===================== SEGURANÇA (RLS) =====================
+-- Habilita Row Level Security (obrigatório no Supabase para
+-- controlar quem pode ler/escrever na tabela).
+
+alter table ranking enable row level security;
+
+-- Permite que qualquer pessoa (mesmo sem login) LEIA o ranking.
+create policy "Qualquer pessoa pode ver o ranking"
+on ranking for select
+to anon
+using (true);
+
+-- Permite que qualquer pessoa (mesmo sem login) INSIRA um resultado.
+create policy "Qualquer pessoa pode inserir um resultado"
+on ranking for insert
+to anon
+with check (true);
+
+-- Observação: não criamos políticas de UPDATE ou DELETE,
+-- então ninguém pode alterar ou remover resultados pelo front-end.

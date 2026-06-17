@@ -1,0 +1,412 @@
+/* ===================== RESET E BASE ===================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --marmore: #f4f1e8;
+  --marmore-escuro: #e8e2d0;
+  --terracota: #c1622d;
+  --terracota-escuro: #9c4a1f;
+  --azul-egeu: #2c6e7f;
+  --azul-egeu-escuro: #1d4d59;
+  --dourado: #c9a227;
+  --dourado-claro: #e0c158;
+  --texto-escuro: #3a2f1e;
+  --pergaminho: #ede0c0;
+  --pergaminho-borda: #b89968;
+  --erro: #a13b2b;
+  --sucesso: #4a7c3f;
+  --sombra: rgba(0, 0, 0, 0.3);
+}
+
+body {
+  font-family: 'Georgia', 'Palatino Linotype', serif;
+  background: linear-gradient(135deg, var(--azul-egeu-escuro), var(--azul-egeu));
+  color: var(--texto-escuro);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.tela {
+  display: none;
+  min-height: 100vh;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.tela-ativa {
+  display: flex;
+}
+
+.container-central {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.titulo-jogo {
+  font-size: 2.2rem;
+  color: var(--marmore);
+  text-shadow: 2px 2px 4px var(--sombra);
+  letter-spacing: 1px;
+}
+
+.subtitulo {
+  color: var(--marmore-escuro);
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+.card {
+  background: var(--marmore);
+  border: 3px solid var(--dourado);
+  border-radius: 12px;
+  padding: 30px;
+  width: 100%;
+  box-shadow: 0 8px 20px var(--sombra);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card label {
+  font-size: 1rem;
+  color: var(--texto-escuro);
+  text-align: left;
+}
+
+#input-nome {
+  padding: 12px 14px;
+  font-size: 1rem;
+  border: 2px solid var(--pergaminho-borda);
+  border-radius: 8px;
+  background: var(--pergaminho);
+  font-family: inherit;
+  color: var(--texto-escuro);
+}
+
+#input-nome:focus {
+  outline: none;
+  border-color: var(--dourado);
+}
+
+.botao {
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.botao:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px var(--sombra);
+}
+
+.botao:active {
+  transform: translateY(0);
+}
+
+.botao-principal {
+  background: linear-gradient(135deg, var(--terracota), var(--terracota-escuro));
+  color: var(--marmore);
+}
+
+.botao-secundario {
+  background: var(--marmore-escuro);
+  color: var(--texto-escuro);
+  border: 2px solid var(--pergaminho-borda);
+}
+
+.botao:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.erro-msg {
+  color: var(--erro);
+  font-size: 0.9rem;
+  min-height: 1.2em;
+}
+
+#tela-mapa {
+  flex-direction: column;
+  padding: 0;
+}
+
+.topo-jogo {
+  width: 100%;
+  background: var(--terracota-escuro);
+  color: var(--marmore);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  flex-wrap: wrap;
+  gap: 10px;
+  box-shadow: 0 2px 8px var(--sombra);
+  font-weight: bold;
+}
+
+.mapa-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 16px;
+}
+
+.mapa-container svg {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px var(--sombra);
+}
+
+.dica-mapa {
+  text-align: center;
+  color: var(--marmore-escuro);
+  padding-bottom: 20px;
+  font-style: italic;
+}
+
+.ponto-mapa {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.ponto-mapa.desbloqueado {
+  cursor: pointer;
+}
+
+.ponto-mapa.bloqueado {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.ponto-mapa.concluido .circulo-ponto {
+  fill: var(--sucesso);
+}
+
+.ponto-mapa:hover.desbloqueado {
+  transform: scale(1.08);
+}
+
+.circulo-ponto {
+  fill: var(--dourado);
+  stroke: var(--marmore);
+  stroke-width: 3;
+}
+
+.ponto-mapa.bloqueado .circulo-ponto {
+  fill: #8a8a8a;
+}
+
+.label-ponto {
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  fill: var(--marmore);
+  font-weight: bold;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(20, 15, 5, 0.7);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.modal-ativo {
+  display: flex;
+}
+
+.pergaminho-card {
+  background: var(--pergaminho);
+  border: 4px solid var(--pergaminho-borda);
+  border-radius: 16px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 30px 28px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.pergaminho-titulo {
+  text-align: center;
+  color: var(--terracota-escuro);
+  font-size: 1.4rem;
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+}
+
+.pergaminho-narrativa {
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 18px;
+  color: var(--texto-escuro);
+}
+
+.pergaminho-pergunta {
+  font-weight: bold;
+  margin-bottom: 16px;
+  font-size: 1.05rem;
+}
+
+.alternativas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.alternativa-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--marmore);
+  border: 2px solid var(--pergaminho-borda);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.alternativa-item:hover {
+  background: var(--marmore-escuro);
+}
+
+.alternativa-item.selecionada {
+  border-color: var(--azul-egeu);
+  background: #d9ecef;
+}
+
+.alternativa-item.correta {
+  border-color: var(--sucesso);
+  background: #dcecd5;
+}
+
+.alternativa-item.incorreta {
+  border-color: var(--erro);
+  background: #f1d6d1;
+}
+
+.alternativa-item input {
+  accent-color: var(--azul-egeu);
+}
+
+.feedback-msg {
+  min-height: 1.4em;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.feedback-msg.sucesso { color: var(--sucesso); }
+.feedback-msg.erro { color: var(--erro); }
+
+.dica-msg {
+  min-height: 1.2em;
+  color: var(--azul-egeu-escuro);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.pergaminho-acoes {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card-resultado {
+  text-align: left;
+}
+
+.resultado-linha {
+  font-size: 1rem;
+  padding: 4px 0;
+}
+
+.resultado-pontuacao {
+  font-size: 1.3rem;
+  color: var(--terracota-escuro);
+  border-top: 2px solid var(--pergaminho-borda);
+  margin-top: 8px;
+  padding-top: 12px;
+}
+
+.status-envio {
+  font-size: 0.9rem;
+  color: var(--marmore-escuro);
+  min-height: 1.2em;
+}
+
+.container-ranking {
+  max-width: 700px;
+}
+
+.ranking-status {
+  color: var(--marmore);
+  font-style: italic;
+}
+
+.tabela-ranking {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--marmore);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px var(--sombra);
+}
+
+.tabela-ranking th {
+  background: var(--terracota-escuro);
+  color: var(--marmore);
+  padding: 12px 10px;
+  font-size: 0.9rem;
+}
+
+.tabela-ranking td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--marmore-escuro);
+  font-size: 0.92rem;
+}
+
+.tabela-ranking tbody tr:nth-child(odd) {
+  background: var(--marmore-escuro);
+}
+
+.tabela-ranking tbody tr:first-child {
+  font-weight: bold;
+  color: var(--terracota-escuro);
+}
+
+@media (max-width: 480px) {
+  .titulo-jogo { font-size: 1.6rem; }
+  .topo-jogo { font-size: 0.85rem; padding: 10px 14px; }
+  .pergaminho-card { padding: 22px 18px; }
+  .tabela-ranking th, .tabela-ranking td { padding: 8px 6px; font-size: 0.8rem; }
+}

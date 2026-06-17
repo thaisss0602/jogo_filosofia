@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Os Caminhos da Sabedoria — Grécia Antiga</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===================== TELA 1: NOME DO JOGADOR ===================== -->
+  <section id="tela-nome" class="tela tela-ativa">
+    <div class="container-central">
+      <h1 class="titulo-jogo">⚱ Os Caminhos da Sabedoria ⚱</h1>
+      <p class="subtitulo">Uma jornada filosófica pela Grécia Antiga</p>
+
+      <div class="card">
+        <label for="input-nome">Digite seu nome, historiador:</label>
+        <input type="text" id="input-nome" maxlength="20" placeholder="Seu nome aqui...">
+        <p id="erro-nome" class="erro-msg"></p>
+        <button id="btn-comecar" class="botao botao-principal">Iniciar Jornada</button>
+        <button id="btn-ver-ranking-inicio" class="botao botao-secundario">Ver Ranking</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TELA 2: MAPA ===================== -->
+  <section id="tela-mapa" class="tela">
+    <header class="topo-jogo">
+      <div class="info-jogador">
+        <span id="nome-jogador-exibido"></span>
+      </div>
+      <div class="info-cronometro">
+        ⏱ <span id="cronometro">00:00</span>
+      </div>
+      <div class="info-progresso">
+        Pergaminho <span id="progresso-atual">1</span> / 8
+      </div>
+    </header>
+
+    <div id="mapa-container" class="mapa-container">
+      <!-- SVG do mapa é inserido via JS -->
+    </div>
+
+    <p class="dica-mapa">Clique nos pergaminhos desbloqueados para continuar sua jornada.</p>
+  </section>
+
+  <!-- ===================== MODAL: PERGAMINHO / PERGUNTA ===================== -->
+  <div id="modal-pergaminho" class="modal-overlay">
+    <div class="pergaminho-card">
+      <div class="pergaminho-topo"></div>
+
+      <h2 id="pergaminho-numero" class="pergaminho-titulo"></h2>
+      <p id="pergaminho-narrativa" class="pergaminho-narrativa"></p>
+
+      <p id="pergaminho-pergunta" class="pergaminho-pergunta"></p>
+
+      <div id="pergaminho-alternativas" class="alternativas-lista"></div>
+
+      <p id="pergaminho-feedback" class="feedback-msg"></p>
+      <p id="pergaminho-dica" class="dica-msg"></p>
+
+      <div class="pergaminho-acoes">
+        <button id="btn-confirmar-resposta" class="botao botao-principal">Confirmar Resposta</button>
+        <button id="btn-fechar-pergaminho" class="botao botao-secundario">Fechar</button>
+      </div>
+
+      <div class="pergaminho-base"></div>
+    </div>
+  </div>
+
+  <!-- ===================== TELA 3: VITÓRIA ===================== -->
+  <section id="tela-vitoria" class="tela">
+    <div class="container-central">
+      <h1 class="titulo-jogo">🏆 Tesouro Encontrado! 🏆</h1>
+      <p class="subtitulo">Você concluiu a jornada pelos caminhos da sabedoria.</p>
+
+      <div class="card card-resultado">
+        <p class="resultado-linha">Historiador: <strong id="vitoria-nome"></strong></p>
+        <p class="resultado-linha">Tempo total: <strong id="vitoria-tempo"></strong></p>
+        <p class="resultado-linha">Dicas utilizadas: <strong id="vitoria-dicas"></strong></p>
+        <p class="resultado-linha resultado-pontuacao">Pontuação final: <strong id="vitoria-pontuacao"></strong></p>
+      </div>
+
+      <p id="vitoria-status-envio" class="status-envio"></p>
+
+      <button id="btn-ver-ranking-vitoria" class="botao botao-principal">Ver Ranking</button>
+      <button id="btn-jogar-novamente" class="botao botao-secundario">Jogar Novamente</button>
+    </div>
+  </section>
+
+  <!-- ===================== TELA 4: RANKING ===================== -->
+  <section id="tela-ranking" class="tela">
+    <div class="container-central container-ranking">
+      <h1 class="titulo-jogo">📜 Ranking dos Historiadores 📜</h1>
+
+      <div id="ranking-carregando" class="ranking-status">Carregando ranking...</div>
+      <div id="ranking-erro" class="ranking-status erro-msg" style="display:none;"></div>
+
+      <table id="tabela-ranking" class="tabela-ranking" style="display:none;">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>Pontuação</th>
+            <th>Tempo</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody id="ranking-corpo"></tbody>
+      </table>
+
+      <button id="btn-voltar-inicio" class="botao botao-secundario">Voltar ao Início</button>
+    </div>
+  </section>
+
+  <!-- Biblioteca do Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+  <script src="js/supabase-config.js"></script>
+  <script src="js/pergaminhos.js"></script>
+  <script src="js/mapa.js"></script>
+  <script src="js/jogo.js"></script>
+  <script src="js/ranking.js"></script>
+</body>
+</html>
