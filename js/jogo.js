@@ -2,15 +2,55 @@
 
 const estadoJogo = {
   nomeJogador: "",
-  progressoAtual: 1,        // id do próximo pergaminho a ser resolvido
+  progressoAtual: 1,        // posição sequencial (1 a 8)
   dicasUsadas: 0,
-  pergaminhoAberto: null,   // objeto do pergaminho atualmente aberto
+  pergaminhoAberto: null,
   alternativaSelecionada: null,
   tentativasNoPergaminho: 0,
   tempoInicio: null,
   tempoFinal: null,
-  cronometroInterval: null
+  cronometroInterval: null,
+  sequenciaEmbaralhada: []  // array de pergaminhos na ordem aleatória desta sessão
 };
+
+// ===================== EMBARALHAMENTO =====================
+
+// Embaralha um array in-place usando Fisher-Yates
+function embaralhar(array) {
+  const arr = [...array]; // copia para não mutar o original
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Retorna um pergaminho com as alternativas embaralhadas,
+// atualizando o índice "correta" para a nova posição.
+function embaralharAlternativas(pergaminho) {
+  const indices = embaralhar([0, 1, 2, 3]);
+  const novasAlternativas = indices.map(i => pergaminho.alternativas[i]);
+  const novaCorreta = indices.indexOf(pergaminho.correta);
+  return { ...pergaminho, alternativas: novasAlternativas, correta: novaCorreta };
+}
+
+// Gera a sequência embaralhada para esta sessão:
+// - Pergaminho 1 (introdução) e Pergaminho 8 (conclusão) ficam fixos
+// - Os pergaminhos do meio (2 ao 7) são embaralhados entre si
+// - As alternativas de TODOS os 8 são embaralhadas
+function gerarSequenciaEmbaralhada() {
+  const primeiro = PERGAMINHOS[0];
+  const ultimo = PERGAMINHOS[PERGAMINHOS.length - 1];
+  const meio = PERGAMINHOS.slice(1, PERGAMINHOS.length - 1);
+
+  const sequencia = [primeiro, ...embaralhar(meio), ultimo];
+  return sequencia.map(embaralharAlternativas);
+}
+
+// Retorna o pergaminho da posição atual (1-indexed)
+function pergaminhoAtual() {
+  return estadoJogo.sequenciaEmbaralhada[estadoJogo.progressoAtual - 1];
+}
 
 // ===================== NAVEGAÇÃO ENTRE TELAS =====================
 
@@ -56,6 +96,7 @@ function iniciarJogo(nome) {
   estadoJogo.progressoAtual = 1;
   estadoJogo.dicasUsadas = 0;
   estadoJogo.tempoInicio = Date.now();
+  estadoJogo.sequenciaEmbaralhada = gerarSequenciaEmbaralhada();
 
   document.getElementById("nome-jogador-exibido").textContent = `👤 ${nome}`;
 
@@ -85,9 +126,11 @@ function pararCronometro() {
 
 function atualizarMapaENavegar() {
   document.getElementById("progresso-atual").textContent =
-    Math.min(estadoJogo.progressoAtual, PERGAMINHOS.length);
+    Math.min(estadoJogo.progressoAtual, estadoJogo.sequenciaEmbaralhada.length);
 
-  renderizarMapa(estadoJogo.progressoAtual, abrirPergaminho);
+  // O mapa usa progressoAtual como posição sequencial (1 a 8)
+  // Os pontos são os mesmos; só o conteúdo muda por embaralhamento
+  renderizarMapa(estadoJogo.progressoAtual, abrirPergaminhoPorPosicao);
 }
 
 // ===================== MODAL DO PERGAMINHO =====================
@@ -102,15 +145,18 @@ const elDica = document.getElementById("pergaminho-dica");
 const btnConfirmar = document.getElementById("btn-confirmar-resposta");
 const btnFechar = document.getElementById("btn-fechar-pergaminho");
 
-function abrirPergaminho(id) {
-  const pergaminho = PERGAMINHOS.find((p) => p.id === id);
+// O mapa chama com o id do ponto; convertemos para posição na sequência
+function abrirPergaminhoPorPosicao(idPonto) {
+  // idPonto é a posição sequencial (1-8) no mapa
+  // nós mapeamos diretamente para o índice na sequência embaralhada
+  const pergaminho = estadoJogo.sequenciaEmbaralhada[idPonto - 1];
   if (!pergaminho) return;
 
   estadoJogo.pergaminhoAberto = pergaminho;
   estadoJogo.alternativaSelecionada = null;
   estadoJogo.tentativasNoPergaminho = 0;
 
-  elTitulo.textContent = `Pergaminho ${romanizar(pergaminho.id)}`;
+  elTitulo.textContent = `Pergaminho ${romanizar(idPonto)}`;
   elNarrativa.textContent = pergaminho.narrativa;
   elPergunta.textContent = pergaminho.pergunta;
   elFeedback.textContent = "";
@@ -167,7 +213,6 @@ btnConfirmar.addEventListener("click", () => {
   const itens = document.querySelectorAll(".alternativa-item");
 
   if (estadoJogo.alternativaSelecionada === pergaminho.correta) {
-    // Resposta correta
     itens[pergaminho.correta].classList.add("correta");
     elFeedback.className = "feedback-msg sucesso";
     elFeedback.textContent = "Correto! O pergaminho seguinte foi desbloqueado.";
@@ -180,13 +225,11 @@ btnConfirmar.addEventListener("click", () => {
     }, 1200);
 
   } else {
-    // Resposta incorreta
     itens[estadoJogo.alternativaSelecionada].classList.add("incorreta");
     elFeedback.className = "feedback-msg erro";
     elFeedback.textContent = "Resposta incorreta. Tente novamente.";
 
     if (estadoJogo.tentativasNoPergaminho === 1) {
-      // Mostra dica apenas após a primeira tentativa errada
       estadoJogo.dicasUsadas++;
       elDica.textContent = `💡 Dica: ${pergaminho.dica}`;
     }
@@ -194,7 +237,7 @@ btnConfirmar.addEventListener("click", () => {
 });
 
 function avancarProgresso() {
-  if (estadoJogo.progressoAtual < PERGAMINHOS.length) {
+  if (estadoJogo.progressoAtual < estadoJogo.sequenciaEmbaralhada.length) {
     estadoJogo.progressoAtual++;
     atualizarMapaENavegar();
   } else {

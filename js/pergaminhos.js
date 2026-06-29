@@ -15,7 +15,7 @@ const PERGAMINHOS = [
   {
     id: 2,
     local: "A Praça (Ágora)",
-    narrativa: 'Na praça caminhava Sócrates, um dos filósofos mais famosos da Grécia. Ele costumava dizer: "Só sei que nada sei."',
+    narrativa: 'Sócrates, um dos filósofos mais famosos da Grécia, costumava dizer: "Só sei que nada sei."',
     pergunta: "Segundo Sócrates, qual é o primeiro passo para aprender algo novo?",
     alternativas: [
       "Acreditar que já sabe tudo",
