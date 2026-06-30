@@ -113,7 +113,7 @@ body {
 }
 
 .botao:hover {
-  transform: translateY(-2px);
+  transform: scale(1.03);
   box-shadow: 0 4px 10px var(--sombra);
 }
 

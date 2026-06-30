@@ -218,6 +218,7 @@ btnConfirmar.addEventListener("click", () => {
     elFeedback.textContent = "Correto! O pergaminho seguinte foi desbloqueado.";
     elDica.textContent = "";
     btnConfirmar.disabled = true;
+    soltarConfetes();
 
     setTimeout(() => {
       avancarProgresso();
@@ -243,6 +244,34 @@ function avancarProgresso() {
   } else {
     finalizarJogo();
   }
+}
+
+// ===================== CONFETES AO ACERTAR PERGUNTA =====================
+
+function soltarConfetes() {
+    const duracao = 1200;
+    const fim = Date.now() + duracao;
+
+    (function frame() {
+
+        confetti({
+            particleCount: 8,
+            angle: 60,
+            spread: 70,
+            origin: { x: 0, y: 0.7 }
+        });
+
+        confetti({
+            particleCount: 8,
+            angle: 120,
+            spread: 70,
+            origin: { x: 1, y: 0.7 }
+        });
+
+        if (Date.now() < fim) {
+            requestAnimationFrame(frame);
+        }
+    })();
 }
 
 // ===================== FINALIZAÇÃO DO JOGO =====================
