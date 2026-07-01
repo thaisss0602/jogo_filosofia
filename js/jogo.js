@@ -61,6 +61,12 @@ function mostrarTela(idTela) {
   document.getElementById(idTela).classList.add("tela-ativa");
 }
 
+// ===================== LOGICA DA TELA DE INTRODUÇÃO =====================
+document.getElementById("btn-entendido").addEventListener("click", () => {
+  // A função mostrarTela já limpa as telas anteriores e ativa a nova
+  mostrarTela("tela-nome"); 
+});
+
 // ===================== TELA 1: NOME =====================
 
 const inputNome = document.getElementById("input-nome");
