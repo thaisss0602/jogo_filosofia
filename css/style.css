@@ -410,3 +410,15 @@ body {
   .pergaminho-card { padding: 22px 18px; }
   .tabela-ranking th, .tabela-ranking td { padding: 8px 6px; font-size: 0.8rem; }
 }
+
+/*FEITO PELO KAUAN*/
+/* ===================== ANIMAÇÃO DE ERRO (TREMER) ===================== */
+@keyframes tremer {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-10px); }
+  40%, 80% { transform: translateX(10px); }
+}
+
+.animacao-tremer {
+  animation: tremer 0.3s ease-in-out;
+}

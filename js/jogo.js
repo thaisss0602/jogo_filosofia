@@ -225,11 +225,24 @@ btnConfirmar.addEventListener("click", () => {
       fecharPergaminho();
     }, 1200);
 
+
+    // FEITO POR KAUAN
   } else {
     itens[estadoJogo.alternativaSelecionada].classList.add("incorreta");
     elFeedback.className = "feedback-msg erro";
     elFeedback.textContent = "Resposta incorreta. Tente novamente.";
 
+    // --- CÓDIGO NOVO: FAZ O PERGAMINHO TREMER ---
+    const cardPergaminho = modalPergaminho.querySelector('.pergaminho-card');
+    if (cardPergaminho) {
+      // Adiciona a classe que criamos no CSS
+      cardPergaminho.classList.add("animacao-tremer");
+      
+      // Remove a classe assim que a animação terminar para que ela possa acontecer de novo se ele errar outra vez
+      cardPergaminho.addEventListener("animationend", () => {
+        cardPergaminho.classList.remove("animacao-tremer");
+      }, { once: true });
+    }
     if (estadoJogo.tentativasNoPergaminho === 1) {
       estadoJogo.dicasUsadas++;
       elDica.textContent = `💡 Dica: ${pergaminho.dica}`;
