@@ -307,6 +307,42 @@ function calcularPontuacao(tempoEmSegundos, dicasUsadas) {
   return Math.max(pontuacao, 0);
 }
 
+// ===================== ANIMAÇÃO DO BAÚ DO TESOURO =====================
+
+function exibirAnimacaoBau() {
+  return new Promise((resolve) => {
+    const overlay = document.getElementById("overlay-bau");
+    const video = document.getElementById("video-bau");
+    const mensagem = document.getElementById("bau-mensagem");
+    const btnContinuar = document.getElementById("btn-continuar-bau");
+
+    mensagem.classList.remove("bau-mensagem-visivel");
+    btnContinuar.classList.remove("bau-btn-visivel");
+    overlay.classList.add("overlay-ativo");
+
+    const mostrarMensagem = () => {
+      mensagem.textContent = "Parabéns historiador, você achou o tesouro escondido do conhecimento";
+      mensagem.classList.add("bau-mensagem-visivel");
+      btnContinuar.classList.add("bau-btn-visivel");
+    };
+
+    video.currentTime = 0;
+    video.play().catch(() => {
+      // Se o vídeo não puder tocar (ex: arquivo não encontrado),
+      // mostra a mensagem mesmo assim em vez de travar o jogo.
+      mostrarMensagem();
+    });
+
+    video.addEventListener("ended", mostrarMensagem, { once: true });
+    video.addEventListener("error", mostrarMensagem, { once: true });
+
+    btnContinuar.addEventListener("click", function aoContinuar() {
+      overlay.classList.remove("overlay-ativo");
+      btnContinuar.removeEventListener("click", aoContinuar);
+      resolve();
+    }, { once: true });
+  });
+}
 async function finalizarJogo() {
   pararCronometro();
   estadoJogo.tempoFinal = Date.now();
@@ -317,6 +353,8 @@ async function finalizarJogo() {
   document.getElementById("vitoria-tempo").textContent = formatarTempo(tempoTotalSegundos);
   document.getElementById("vitoria-dicas").textContent = estadoJogo.dicasUsadas;
   document.getElementById("vitoria-pontuacao").textContent = pontuacaoFinal;
+
+  await exibirAnimacaoBau(); // <-- NOVO: espera o jogador ver o baú antes de continuar
 
   const statusEnvio = document.getElementById("vitoria-status-envio");
   statusEnvio.textContent = "Salvando seu resultado no ranking...";

@@ -1,0 +1,17 @@
+.
+├── css
+│   └── style.css
+├── estrutura.txt
+├── imagem
+│   └── mapa-grecia.png
+├── index.html
+├── js
+│   ├── jogo.js
+│   ├── mapa.js
+│   ├── pergaminhos.js
+│   ├── ranking.js
+│   └── supabase-config.js
+├── README.md
+└── supabase-setup.sql       
+
+3 directories, 11 files
