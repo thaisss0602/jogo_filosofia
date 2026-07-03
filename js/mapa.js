@@ -87,7 +87,6 @@ function renderizarMapa(progressoAtual, onPontoClicado) {
 
   container.innerHTML = `
     <svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
-      ${gerarFundoIlustrado()}
       ${pontosSVG}
     </svg>
   `;

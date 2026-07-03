@@ -113,7 +113,7 @@ body {
 }
 
 .botao:hover {
-  transform: scale(1.03);
+  transform: translateY(-2px);
   box-shadow: 0 4px 10px var(--sombra);
 }
 
@@ -163,11 +163,24 @@ body {
   font-weight: bold;
 }
 
+/* ===================== MAPA DE FUNDO (MARCA D'ÁGUA) - FEITO PELO KAUAN ===================== */
 .mapa-container {
   width: 100%;
   max-width: 900px;
   margin: 20px auto;
   padding: 0 16px;
+  position: relative;
+  background-image: url('../imagem/mapa-grecia.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+}
+
+.mapa-container svg {
+  position: relative;
+  z-index: 1;
+  display: block;
 }
 
 .mapa-container svg {
