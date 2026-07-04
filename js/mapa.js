@@ -54,13 +54,22 @@ function gerarFundoIlustrado() {
 
 function gerarPontoSVG(pergaminho, posicao, status) {
   const classes = `ponto-mapa ${status}`;
+  const conteudoNormal = status === "concluido" ? "✓" : (status === "bloqueado" ? "🔒" : pergaminho.id);
+
+  const textoNumero = `<text class="label-ponto label-numero" x="${posicao.x}" y="${posicao.y + 5}">
+    ${conteudoNormal}
+  </text>`;
+
+  const textoEmoji = status === "desbloqueado"
+    ? `<text class="label-ponto label-emoji-hover" x="${posicao.x}" y="${posicao.y + 6}">📜</text>`
+    : "";
+
   return `
     <g class="${classes}" data-id="${pergaminho.id}" tabindex="0" role="button"
        aria-label="Pergaminho ${pergaminho.id}: ${pergaminho.local}">
       <circle class="circulo-ponto" cx="${posicao.x}" cy="${posicao.y}" r="28"></circle>
-      <text class="label-ponto" x="${posicao.x}" y="${posicao.y + 5}">
-        ${status === "concluido" ? "✓" : (status === "bloqueado" ? "🔒" : pergaminho.id)}
-      </text>
+      ${textoNumero}
+      ${textoEmoji}
       <text class="label-ponto" x="${posicao.x}" y="${posicao.y + 46}" style="font-size:11px;">
         ${pergaminho.local}
       </text>

@@ -199,7 +199,9 @@ body {
 
 .ponto-mapa {
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.15s ease;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 .ponto-mapa.desbloqueado {
@@ -215,8 +217,12 @@ body {
   fill: var(--sucesso);
 }
 
-.ponto-mapa:hover.desbloqueado {
-  transform: scale(1.08);
+.ponto-mapa.desbloqueado:hover {
+  transform: translateY(3px) scale(0.98);
+}
+
+.ponto-mapa.desbloqueado:hover .circulo-ponto {
+  filter: brightness(0.9);
 }
 
 .circulo-ponto {
@@ -236,6 +242,25 @@ body {
   font-weight: bold;
   text-anchor: middle;
   pointer-events: none;
+}
+
+.label-numero {
+  opacity: 1;
+  transition: opacity 0.15s ease;
+}
+
+.label-emoji-hover {
+  opacity: 0;
+  font-size: 20px;
+  transition: opacity 0.15s ease;
+}
+
+.ponto-mapa.desbloqueado:hover .label-numero {
+  opacity: 0;
+}
+
+.ponto-mapa.desbloqueado:hover .label-emoji-hover {
+  opacity: 1;
 }
 
 .modal-overlay {
