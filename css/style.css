@@ -5,6 +5,15 @@
   box-sizing: border-box;
 }
 
+/* ===================== FONTE ANTIGA (PERGAMINHO) ===================== */
+/* MedievalSharp: visual de caligrafia medieval/pergaminho, legível e temático */
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=IM+Fell+English:ital@0;1&display=swap');
+
+/*
+  MedievalSharp  → títulos, botões, cabeçalhos (visual mais ornamental)
+  IM Fell English → corpo de texto, narrativas, alternativas (mais legível, mantém ar antigo)
+*/
+
 :root {
   --marmore: #f4f1e8;
   --marmore-escuro: #e8e2d0;
@@ -20,10 +29,14 @@
   --erro: #a13b2b;
   --sucesso: #4a7c3f;
   --sombra: rgba(0, 0, 0, 0.3);
+
+  /* Variáveis de fonte centralizadas — altere aqui para mudar em todo o jogo */
+  --fonte-titulo: 'MedievalSharp', 'Georgia', serif;
+  --fonte-corpo: 'IM Fell English', 'Palatino Linotype', Georgia, serif;
 }
 
 body {
-  font-family: 'Georgia', 'Palatino Linotype', serif;
+  font-family: var(--fonte-corpo);
   background: linear-gradient(135deg, var(--azul-egeu-escuro), var(--azul-egeu));
   color: var(--texto-escuro);
   min-height: 100vh;
@@ -55,13 +68,15 @@ body {
 }
 
 .titulo-jogo {
+  font-family: var(--fonte-titulo);
   font-size: 2.2rem;
   color: var(--marmore);
   text-shadow: 2px 2px 4px var(--sombra);
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 .subtitulo {
+  font-family: var(--fonte-corpo);
   color: var(--marmore-escuro);
   font-size: 1.1rem;
   font-style: italic;
@@ -80,9 +95,22 @@ body {
 }
 
 .card label {
+  font-family: var(--fonte-corpo);
   font-size: 1rem;
   color: var(--texto-escuro);
   text-align: left;
+}
+
+/* Cabeçalho inline da tela de introdução */
+.card h2 {
+  font-family: var(--fonte-titulo) !important;
+  letter-spacing: 1px;
+}
+
+/* Parágrafos dentro do card */
+.card p {
+  font-family: var(--fonte-corpo);
+  line-height: 1.65;
 }
 
 #input-nome {
@@ -91,7 +119,7 @@ body {
   border: 2px solid var(--pergaminho-borda);
   border-radius: 8px;
   background: var(--pergaminho);
-  font-family: inherit;
+  font-family: var(--fonte-corpo);
   color: var(--texto-escuro);
 }
 
@@ -106,9 +134,9 @@ body {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-family: inherit;
+  font-family: var(--fonte-titulo);
   font-weight: bold;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -139,6 +167,7 @@ body {
 }
 
 .erro-msg {
+  font-family: var(--fonte-corpo);
   color: var(--erro);
   font-size: 0.9rem;
   min-height: 1.2em;
@@ -160,7 +189,9 @@ body {
   flex-wrap: wrap;
   gap: 10px;
   box-shadow: 0 2px 8px var(--sombra);
+  font-family: var(--fonte-titulo);
   font-weight: bold;
+  letter-spacing: 1px;
 }
 
 /* ===================== MAPA DE FUNDO (MARCA D'ÁGUA) - FEITO PELO KAUAN ===================== */
@@ -195,6 +226,7 @@ body {
   color: var(--marmore-escuro);
   padding-bottom: 20px;
   font-style: italic;
+  font-family: var(--fonte-corpo);
 }
 
 .ponto-mapa {
@@ -235,8 +267,9 @@ body {
   fill: #8a8a8a;
 }
 
+/* Fonte dos rótulos do mapa SVG */
 .label-ponto {
-  font-family: 'Georgia', serif;
+  font-family: 'MedievalSharp', 'Georgia', serif;
   font-size: 13px;
   fill: var(--marmore);
   font-weight: bold;
@@ -293,21 +326,24 @@ body {
 }
 
 .pergaminho-titulo {
+  font-family: var(--fonte-titulo);
   text-align: center;
   color: var(--terracota-escuro);
   font-size: 1.4rem;
   margin-bottom: 14px;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 .pergaminho-narrativa {
+  font-family: var(--fonte-corpo);
   font-style: italic;
-  line-height: 1.6;
+  line-height: 1.7;
   margin-bottom: 18px;
   color: var(--texto-escuro);
 }
 
 .pergaminho-pergunta {
+  font-family: var(--fonte-corpo);
   font-weight: bold;
   margin-bottom: 16px;
   font-size: 1.05rem;
@@ -329,6 +365,7 @@ body {
   border: 2px solid var(--pergaminho-borda);
   border-radius: 8px;
   cursor: pointer;
+  font-family: var(--fonte-corpo);
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
@@ -356,6 +393,7 @@ body {
 }
 
 .feedback-msg {
+  font-family: var(--fonte-corpo);
   min-height: 1.4em;
   font-weight: bold;
   margin-bottom: 6px;
@@ -365,6 +403,7 @@ body {
 .feedback-msg.erro { color: var(--erro); }
 
 .dica-msg {
+  font-family: var(--fonte-corpo);
   min-height: 1.2em;
   color: var(--azul-egeu-escuro);
   font-style: italic;
@@ -383,19 +422,23 @@ body {
 }
 
 .resultado-linha {
+  font-family: var(--fonte-corpo);
   font-size: 1rem;
   padding: 4px 0;
 }
 
 .resultado-pontuacao {
+  font-family: var(--fonte-titulo);
   font-size: 1.3rem;
   color: var(--terracota-escuro);
   border-top: 2px solid var(--pergaminho-borda);
   margin-top: 8px;
   padding-top: 12px;
+  letter-spacing: 1px;
 }
 
 .status-envio {
+  font-family: var(--fonte-corpo);
   font-size: 0.9rem;
   color: var(--marmore-escuro);
   min-height: 1.2em;
@@ -406,6 +449,7 @@ body {
 }
 
 .ranking-status {
+  font-family: var(--fonte-corpo);
   color: var(--marmore);
   font-style: italic;
 }
@@ -420,13 +464,16 @@ body {
 }
 
 .tabela-ranking th {
+  font-family: var(--fonte-titulo);
   background: var(--terracota-escuro);
   color: var(--marmore);
   padding: 12px 10px;
   font-size: 0.9rem;
+  letter-spacing: 1px;
 }
 
 .tabela-ranking td {
+  font-family: var(--fonte-corpo);
   padding: 10px;
   text-align: center;
   border-bottom: 1px solid var(--marmore-escuro);
@@ -498,6 +545,7 @@ body {
 
 .bau-mensagem {
   margin-top: 24px;
+  font-family: var(--fonte-titulo);
   font-size: 1.4rem;
   font-weight: 700;
   color: #ffd85e;
@@ -506,6 +554,7 @@ body {
   transform: translateY(10px);
   transition: opacity 0.6s ease, transform 0.6s ease;
   max-width: 500px;
+  letter-spacing: 1px;
 }
 
 .bau-mensagem.bau-mensagem-visivel {
@@ -516,6 +565,7 @@ body {
 .bau-btn-continuar {
   margin-top: 20px;
   padding: 12px 28px;
+  font-family: var(--fonte-titulo);
   font-size: 1rem;
   font-weight: 600;
   color: #1a1207;
@@ -523,6 +573,7 @@ body {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  letter-spacing: 1px;
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s, filter 0.2s ease;
